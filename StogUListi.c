@@ -10,15 +10,41 @@ typedef struct Node{
     int val;
 } node;
 
-int push(/*argumenti*/) {
+int pop(node **top) {
+    if(!*top) return -1;
+
+    node *tmp = (*top)->next;
+    free(*top);
+    *top = tmp;
     return 0;
 }
 
-int pop(/*argumenti*/) {
+int push(node **top, int val) {
+
+    node *newn;
+    newn = malloc(sizeof(node));
+
+    //newn == NULL alokacija nije uspjela
+    if (!newn) return -1;
+
+    newn->val = val;
+    newn->next = *top;
+
+    *top = newn;
+
     return 0;
 }
 
-int print(/*argumenti*/) {
+int print(node *top) {
+
+    if(!top) return -1;
+
+    printf("Stog: ");
+    for (node *t = top; t != NULL; t = t->next){
+        printf("%d ", t->val);
+    }
+    printf("\n");
+
     return 0;
 }
 
@@ -34,15 +60,15 @@ int main() {
         switch (menu_choice) {
             case 'd':
                 scanf("%d", &val);
-                retval = push(/*argumenti*/);
+                retval = push(&top, val);
                 if (retval==-1) printf("Alokacija nije uspjela.\n");
                 break;
             case 'b':
-                retval = pop(/*argumenti*/);
+                retval = pop(&top);
                 if (retval==-1) printf("Stog je prazan.\n");
                 break;
             case 'i':
-                retval = print(/*argumenti*/);
+                retval = print(top);
                 if (retval==-1) printf("Stog je prazan.\n");
                 break;
         }
