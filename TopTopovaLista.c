@@ -10,7 +10,7 @@ typedef struct Node {
     int val;
 } node;
 
-int push(node **top, int val) {
+int push(node **top, int val, int *top_top, int *current_top) {
     node *new;
     new = (node *)malloc(sizeof(node));
     if (!new) return -1;
@@ -19,10 +19,13 @@ int push(node **top, int val) {
     new->next = *top;
     *top = new;
 
+    (*current_top)++;
+    if(*current_top > *top_top) *top_top = *current_top;
+
     return 0;
 }
 
-int pop(node **top) {
+int pop(node **top, int *current_top) {
     node *t;
 
     if(!*top) return -1;
@@ -32,6 +35,8 @@ int pop(node **top) {
     t = (*top)->next;
     free(*top);
     *top = t;
+
+    (*current_top)--;
 
     return 0;
 }
@@ -47,14 +52,13 @@ int print(node *top) {
 
 }
 
-/*
-void ime_funkcije(argumenti) {
+void top_topova(int top_top){
+    printf("%d\n", top_top);
 }
-*/
 
 int main() {
     node *top = NULL;
-    int menu_choice, val, ret_val;
+    int menu_choice, val, ret_val, top_top = 0, current_top = 0;
     char c;
 
     setbuf(stdout, NULL);
@@ -65,15 +69,15 @@ int main() {
         scanf("%d", &menu_choice);
         switch (menu_choice) {
             case 1:
-                //ime_funkcije(argumenti);
+                top_topova(top_top);
                 break;
             case 2:
                 scanf("%d", &val);
-                ret_val = push(&top, val);
+                ret_val = push(&top, val, &top_top, &current_top);
                 if(ret_val==-1) DEBUG("Alokacija nije uspjela.");
                 break;
             case 3:
-                ret_val = pop(&top);
+                ret_val = pop(&top, &current_top);
                 if(ret_val==-1) DEBUG("Stog je prazan.");
                 break;
             case 4:
