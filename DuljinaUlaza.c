@@ -12,11 +12,11 @@ int binary_search(long c, long t) {
 
   while (lo + 1 < hi) {
     long mid = (hi + lo)/2;
-		if (c*mid*log(mid)/log(2.0) > t ) {
-	      hi = mid;
-	    } else {
-	      lo = mid;
-	    }
+    if (c*mid*log(mid)/log(2.0) > t ) {
+	  hi = mid;
+    } else {
+	  lo = mid;
+    }
   }
   
   return lo;
