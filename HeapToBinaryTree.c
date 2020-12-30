@@ -90,6 +90,16 @@ int is_max_heap(int *array, int len) {
 }
 
 Node *heap_to_tree(Heap *heap, Node *parent, int j) {
+    Node *node;
+
+    if(j >= heap->size) return NULL;
+
+    node = malloc(sizeof(Node));
+    node->key = heap->array[j];
+    node->parent = parent;
+    node->left = heap_to_tree(heap, node, LEFT(j));
+    node->right = heap_to_tree(heap, node, RIGHT(j));
+    return node;
 }
 
 int main() {
